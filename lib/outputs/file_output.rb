@@ -22,9 +22,10 @@ module Fido
       raise e
     end
 
-    # TODO: Rethink filename since website url may be long and contain bad characters
+    # TODO: Improve dumped filename since may contain other bad characters or be too long
     def format_filename(uri)
       filename = uri.host + uri.path + @extension
+      filename.gsub!(%r{[\\/]}, '-')
       File.join(@path, filename)
     end
 
