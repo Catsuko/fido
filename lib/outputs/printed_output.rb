@@ -1,4 +1,4 @@
-require_relative 'fetch_error'
+require_relative '../fetch_error'
 
 module Fido
   class PrintedOutput
@@ -14,6 +14,8 @@ module Fido
       puts output
     rescue FetchError => e
       puts "❌ #{source} (#{e.response.code} #{e.response.message})"
+    rescue StandardError => e
+      puts "❌ #{source} #{e.message}"
     end
 
     private

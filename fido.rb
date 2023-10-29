@@ -1,9 +1,9 @@
 require 'uri'
-require_relative 'lib/batch'
-require_relative 'lib/file_output'
-require_relative 'lib/printed_output'
-require_relative 'lib/web_page'
-require_relative 'lib/with_tag_stats'
+require_relative 'lib/inputs/batch'
+require_relative 'lib/inputs/web_page'
+require_relative 'lib/outputs/file_output'
+require_relative 'lib/outputs/printed_output'
+require_relative 'lib/outputs/with_tag_stats'
 
 output = Fido::FileOutput.new(path: __dir__)
 if (include_metadata = ARGV.delete('--metadata'))

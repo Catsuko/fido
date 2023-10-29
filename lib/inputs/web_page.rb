@@ -1,5 +1,5 @@
 require 'net/http'
-require_relative 'fetch_error'
+require_relative '../fetch_error'
 
 module Fido
   class WebPage
