@@ -6,18 +6,17 @@ module Fido
     end
 
     def save(content, source:)
-      write_to_file(content, filename: format_filename(source))
+      { last_fetched_at: write_to_file(content, filename: format_filename(source)) }
     end
 
     private
 
     def write_to_file(content, filename:)
-      { last_fetched_at: fetched_at(filename) }.tap do |metadata|
-        File.open(filename, 'w') do |f|
-          content.each { |chunk| f.write(chunk) }
-        end
-        metadata[:last_fetched_at] ||= fetched_at(filename)
+      last_modified_at = check_modified_at(filename)
+      File.open(filename, 'w') do |f|
+        content.each { |chunk| f.write(chunk) }
       end
+      last_modified_at || check_modified_at(filename)
     rescue StandardError => e
       File.delete(filename)
       raise e
@@ -29,7 +28,7 @@ module Fido
       File.join(@path, filename)
     end
 
-    def fetched_at(filename)
+    def check_modified_at(filename)
       File.mtime(filename)
     rescue StandardError
       nil
