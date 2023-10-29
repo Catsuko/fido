@@ -1,15 +1,22 @@
 module Fido
   class FileOutput
-    def initialize(path: nil, extension: '.html')
+    def initialize(path:, extension: '.html')
       @path = path
       @extension = extension
     end
 
     def save(content, source:)
-      filename = File.join(@path || __dir__, source.host + source.path + @extension)
-      File.open(filename, 'w') do |f|
+      File.open(format_filename(source), 'w') do |f|
         content.each { |chunk| f.write(chunk) }
       end
+    end
+
+    private
+
+    # TODO: Rethink filename since website url may be long and contain bad characters
+    def format_filename(uri)
+      filename = uri.host + uri.path + @extension
+      File.join(@path, filename)
     end
   end
 end
