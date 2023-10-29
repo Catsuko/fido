@@ -16,4 +16,4 @@ COPY ./bin ./bin/
 
 RUN mkdir ./fetches
 
-ENTRYPOINT ["/usr/local/bin/ruby", "./bin/fido"]
+ENTRYPOINT ["/usr/local/bin/ruby", "./bin/fido", "--ignore_wd"]

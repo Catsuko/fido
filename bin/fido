@@ -3,4 +3,5 @@
 require_relative '../fido'
 
 include_metadata = ARGV.delete('--metadata')
-Fido.fetch(ARGV, include_metadata:)
+use_working_dir = ARGV.delete('--ignore_wd').nil?
+Fido.fetch(ARGV, include_metadata:, use_working_dir:)
