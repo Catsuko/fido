@@ -6,12 +6,19 @@ module Fido
     end
 
     def save(content, source:)
-      File.open(format_filename(source), 'w') do |f|
-        content.each { |chunk| f.write(chunk) }
-      end
+      write_to_file(content, filename: format_filename(source))
     end
 
     private
+
+    def write_to_file(content, filename:)
+      File.open(filename, 'w') do |f|
+        content.each { |chunk| f.write(chunk) }
+      end
+    rescue StandardError => e
+      File.delete(filename)
+      raise e
+    end
 
     # TODO: Rethink filename since website url may be long and contain bad characters
     def format_filename(uri)
