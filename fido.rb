@@ -1,11 +1,9 @@
 require 'uri'
+require_relative 'lib/batch'
 require_relative 'lib/web_page'
 require_relative 'lib/file_output'
+require_relative 'lib/printed_output'
 
-file_output = Fido::FileOutput.new(path: __dir__)
-web_page = Fido::WebPage.new(URI.parse(ARGV[0]))
-begin
-  web_page.fetch(to: file_output)
-rescue StandardError => e
-  puts e.message
-end
+output = Fido::PrintedOutput.new(Fido::FileOutput.new(path: __dir__))
+pages = ARGV.map { |arg| Fido::WebPage.new(URI.parse(arg)) }
+Fido::Batch.new(pages).fetch(to: output)
