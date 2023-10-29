@@ -1,3 +1,5 @@
+require 'async'
+
 module Fido
   class Batch
     def initialize(inputs)
@@ -5,7 +7,11 @@ module Fido
     end
 
     def fetch(to:)
-      @inputs.each { |input| input.fetch(to:) }
+      Async do
+        @inputs.each do |input|
+          Async { input.fetch(to:) }
+        end
+      end
     end
   end
 end
