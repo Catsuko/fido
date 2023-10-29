@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'net/http'
 
 module Fido
@@ -10,8 +8,8 @@ module Fido
       @uri = uri
     end
 
-    def fetch(&handler)
-      chunks.each(&handler)
+    def fetch(&)
+      chunks.each(&)
     end
 
     def send_to(output)
