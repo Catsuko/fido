@@ -9,12 +9,8 @@ module Fido
       @uri = uri
     end
 
-    def fetch(&)
-      chunks.each(&)
-    end
-
-    def send_to(output)
-      output.consume(chunks)
+    def fetch(to:)
+      to.save(chunks, source: uri)
     end
 
     private
