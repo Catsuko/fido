@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require_relative '../fido'
+
+include_metadata = ARGV.delete('--metadata')
+Fido.fetch(ARGV, include_metadata:)
