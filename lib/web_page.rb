@@ -1,4 +1,5 @@
 require 'net/http'
+require_relative 'fetch_error'
 
 module Fido
   class WebPage
@@ -22,12 +23,16 @@ module Fido
       Enumerator.new do |chunks|
         Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
           http.request(Net::HTTP::Get.new(uri)) do |response|
-            raise 'TODO: Handle error!' unless response.is_a?(Net::HTTPSuccess)
+            handle_error(response) unless response.is_a?(Net::HTTPSuccess)
 
             response.read_body { |chunk| chunks.yield(chunk) }
           end
         end
       end
+    end
+
+    def handle_error(response)
+      raise FetchError.new(response:)
     end
   end
 end
